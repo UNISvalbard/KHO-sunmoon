@@ -2,6 +2,8 @@
 Create a Sun & Moon plot for KHO
 """
 
+import matplotlib
+matplotlib.use('Agg')  # Run matplotlib in headless mode
 
 import numpy as np
 import matplotlib.pyplot as plt
