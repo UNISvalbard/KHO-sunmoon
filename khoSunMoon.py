@@ -24,7 +24,7 @@ def main():
 
     dttoday = dt.datetime.utcnow()
     daystart = Time(dttoday.strftime("%Y-%m-%d"))
-    daystart = Time('2020-10-21 00:00:00')
+    # daystart = Time('2020-10-21 00:00:00')
     timesteps = np.linspace(0, 24, 200)*u.hour
     oneDay = daystart+timesteps
     frame_oneDay = AltAz(obstime=oneDay, location=kho)
@@ -40,8 +40,11 @@ def main():
     cols = 800
     plt.figure(figsize=(cols/my_dpi, rows/my_dpi), dpi=my_dpi)
 
+    # Mark the horizon
+    plt.axhline(y=0,color='y',linestyle='-',linewidth=4)
+    
     plt.plot(timesteps, sunaltazs.alt, color='r', label='Sun')
-    plt.plot(timesteps, moonaltazs.alt, color=[0.75]*3, ls='--', label='Moon')
+    plt.plot(timesteps, moonaltazs.alt, color='b', ls='--', label='Moon')
 
     # Civil twilight
     plt.fill_between(timesteps, -40*u.deg, 40*u.deg,
