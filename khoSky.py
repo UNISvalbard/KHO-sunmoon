@@ -16,8 +16,8 @@ import astropy.units as u
 from astropy.constants import R_earth
 from astropy.time import Time
 from astropy.coordinates import EarthLocation, AltAz
-from astropy.coordinates import get_sun
-
+from astropy.coordinates import get_sun, get_body
+from astroplan.moon import moon_illumination
 
 
 
@@ -26,8 +26,10 @@ def main():
     mytime = Time.now()
 
     kho = EarthLocation(lat=78.148*u.deg, lon=16.043*u.deg, height=520*u.m)
-    frame_observation = AltAz(obstime=mytime, location=kho)
-    sunaltaz = get_sun(mytime).transform_to(frame_observation)
+    obs_frame = AltAz(obstime=mytime, location=kho)
+    sunaltaz = get_sun(mytime).transform_to(obs_frame)
+    moonaltaz = get_body("moon",mytime,location=kho).transform_to(obs_frame)
+    moonillum = np.max(moon_illumination(mytime))*100
 
     # Quick estimate assuming a perfectly spherical Earth
     # by Dan Whiter, Southampton University
@@ -38,6 +40,9 @@ def main():
     print("- Zenith angle   %.1f degrees" % (90-sunaltaz.alt.deg))
     if sunaltaz.alt.deg<0:
         print("- shadow height  %.1f km" % shadow_height.to(u.km).value)
+    print("- Moon altitude %.1f degrees" % moonaltaz.alt.deg)
+    print("- Moon illumination %.1f %%" % moonillum)
+
 
 if __name__ == "__main__":
     main()
