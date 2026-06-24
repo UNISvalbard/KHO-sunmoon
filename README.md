@@ -9,3 +9,5 @@ The astronomical calculations are done using [Astropy](https://www.astropy.org/)
 ## Notes
 
 In the standard Ubuntu installation, there was a weird error regarding GTK backends. There is apparently an unnecessary line in `backend_gtk3.py`. If you get this error, you can comment out the line `GLib.source_remove(seld._idle_draw_id)`
+
+The earlier code is not any longer compatible with the latest version of AstroPy. See `findSunMoon.py` for a more recent code snippet.
